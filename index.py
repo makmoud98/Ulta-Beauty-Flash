@@ -30,7 +30,7 @@ def hello_world():
 
 @app.route('/api/get_product_recommendation')
 def get_recommendation():
-    keyword = request.args.get("keyword", "lipstick")
+    keyword = request.args.get("keyword", "lips")
     return jsonify(items=get_product_recommendations(keyword))
 
 @app.route('/api/get_nearest_store')
