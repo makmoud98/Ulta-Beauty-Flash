@@ -3,6 +3,8 @@ app = Flask(__name__)
 import config
 import pandas as pd
 import geopandas as gpd
+import requests
+import json
 
 def path(file_name, path_name='static/'):
     return path_name+file_name
@@ -31,12 +33,11 @@ def get_nearest_store():
     return None
 
 def convert_address(address):
-    address = '+'.join(address.split(' '))
-    #https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
-    #+Mountain+View,+CA&key=YOUR_API_KEY
-    url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address +'&key='+ config.API_KEY
-    print(url)
-    return None
+    url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    params = {'key': config.API_KEY, 'address': '+'.join(address.split(' '))}
+    r = requests.get(url, params)
+    loc = json.loads(r.text)['results'][0]['geometry']['location']
+    return {'geometry':{'type':'Point', 'coordinates': [loc['lat'], loc['lng']]}}
 
 def get_product_recommendations(keyword):
 	return []
