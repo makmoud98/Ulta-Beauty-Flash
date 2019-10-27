@@ -50,7 +50,7 @@ def get_in_store():
         tmp = item_in_store(row['STORE_ID'], sku_id)
         if tmp.shape[0] > 0:
             return tmp.to_json(orient='index')
-    return "None"
+    return "[]"
     
 
 #within 10 km
