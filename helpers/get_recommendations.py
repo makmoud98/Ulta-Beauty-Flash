@@ -44,16 +44,25 @@ def find_keyword(keyword):
 
 def get_product_recommendations(keyword, n=5):
     lst = keyword.lower().split(' ')
+
+    face_masks_ls = ["face", "skin", "skincare", "care", "pores", "pore", "mask", "masks"]
+    makeup_brushes_ls = ["makeup", "brushes", "brush", "cosmetics"]
+    oils_n_serums_ls = ["shampoo", "hair", "frizzy", "conditioner", "pomade", "oil"]
+    eyes_ls = ["eyecare", "eyeshadow", "eye", "shadow", "mascara"]
+    cream_ls = ["lotion", "cream", "hand", "foot", "butter", "moisturizer", "moisture", "skin", "care"]
+
+
     if len(lst) > 1 and keyword not in category_array:
-        if ('face' in lst):
+        
+        if (len([x for x in face_masks_ls if x in lst]) > 0):
             keyword = 'face masks'
-        if ('brushes' in lst):
+        if (len([x for x in makeup_brushes_ls if x in lst]) > 0):
             keyword = 'makeup brushes'
-        if ('hair' in lst):
+        if (len([x for x in oils_n_serums_ls if x in lst]) > 0):
             keyword = 'oils and serums'
-        if ('eyes' in lst):
+        if (len([x for x in eyes_ls if x in lst]) > 0):
             keyword = 'eyeshadow'
-        if ('cream' in lst):
+        if (len([x for x in cream_ls if x in lst]) > 0):
             keyword = 'hand cream and foot cream'
 
     try:
