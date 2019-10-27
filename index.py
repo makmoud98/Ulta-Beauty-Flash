@@ -20,7 +20,6 @@ store_details_joined_df = pickle.loads(open(path('store_details.pickle'), 'rb').
 store_details_df = pickle.loads(open(path('new_product_details.txt'), 'rb').read())
 
 sku_metadata_df = pd.read_csv(path("Sku_MetaData.csv"), encoding = "ISO-8859-1")
-
 product_catalog_df = pd.read_csv(path('Product_Catalog.psv'), delimiter='|')
 product_catalog_df['CATEGORY_NAME'] = product_catalog_df['CATEGORY_NAME'].astype('category')
 
@@ -70,6 +69,10 @@ def get_closest_stores(point, gpd2):
     closest_stores = sorted_gpd.head()
     closest_stores = closest_stores[closest_stores['Dist'] < 10]
     return closest_stores
+
+@app.route('/api/get_most_popular')
+def get_popular():
+    return jsonify(items=get_most_popular())
 
 if __name__ == '__main__':
 	app.run(debug=True, port=5000)
