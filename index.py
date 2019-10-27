@@ -42,15 +42,16 @@ def get_nearest_store():
 
 @app.route('/api/get_in_store')
 def get_in_store():
-    sku_id = float(request.args.get("sku-id", "00000"))
-    lat = float(request.args.get("lat", "0"))
-    lng = float(request.args.get("lng", "0"))
+    sku_id = float(request.args.get("sku-id", "1131097"))
+    lat = float(request.args.get("lat", "41.785264"))
+    lng = float(request.args.get("lng", "-87.858765"))
     closest_rows = get_closest_stores((lat,lng), store_details_df)
     for index, row in closest_rows.iterrows():
         tmp = item_in_store(row['STORE_ID'], sku_id)
         if tmp.shape[0] > 0:
+            tmp['store_data'] = row.to_json()
             return tmp.to_json(orient='index')
-    return "[]"
+    return "We're sorry, it's out of stock. You can find and order it online the Ulta App!"
     
 
 #within 10 km
