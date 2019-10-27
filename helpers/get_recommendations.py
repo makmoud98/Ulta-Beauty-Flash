@@ -23,6 +23,7 @@ user_hist = open('../static/user_history.txt')
 category_array = open('../static/categories.txt')
 
 lst_recs = eval(user_recs.read())
+category_array = eval(category_array.read())
 lst_recs = lst_recs[0]
 hist = eval(user_hist.read())
 
@@ -42,7 +43,23 @@ def find_keyword(keyword):
     return lst_recs[index]
 
 def get_product_recommendations(keyword, n=5):
-    keyword_lst = find_keyword(keyword)
-    sku_lst = find_top_n(keyword_lst, n)
-    items = [get_product_tojson(x) for x in sku_lst]
+    lst = keyword.lower().split(' ')
+    if len(lst) > 1 and keyword not in category_array:
+        if ('face' in lst):
+            keyword = 'face masks'
+        if ('brushes' in lst):
+            keyword = 'makeup brushes'
+        if ('hair' in lst):
+            keyword = 'oils and serums'
+        if ('eyes' in lst):
+            keyword = 'eyeshadow'
+        if ('cream' in lst):
+            keyword = 'hand cream and foot cream'
+
+    try:
+        keyword_lst = find_keyword(keyword)
+        sku_lst = find_top_n(keyword_lst, n)
+        items = [get_product_tojson(x) for x in sku_lst]
+    except Exception:
+        items = get_most_popular()
     return items
