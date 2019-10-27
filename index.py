@@ -41,6 +41,19 @@ def get_nearest_store():
     closest_row = closest_row_func((lat,lng), store_details_df).iloc[0,:]
     return closest_row.to_json(orient='index')
 
+@app.route('/api/get_in_store')
+def get_in_store():
+    sku_id = float(request.args.get("sku-id", "00000"))
+    lat = float(request.args.get("lat", "0"))
+    lng = float(request.args.get("lng", "0"))
+    closest_rows = get_closest_stores((lat,lng), store_details_df)
+    for index, row in closest_rows.iterrows():
+        tmp = item_in_store(row['STORE_ID'], sku_id)
+        if tmp.shape[0] > 0:
+            return tmp.to_json(orient='index')
+    return "None"
+    
+
 #within 10 km
 @app.route('/api/get_nearest_stores')
 def get_nearest_stores():
@@ -52,7 +65,7 @@ def get_nearest_stores():
 #returns whether item in store
 def item_in_store(store_id, sku_id):
     joined_df = store_inventory_df.merge(product_catalog_df, on=['SKU_ID'], how='inner')
-    return joined_df[joined_df['Store_ID'] == store_id][joined_df['SKU_ID'] == sku_id].shape[0]
+    return joined_df[joined_df['Store_ID'] == store_id][joined_df['SKU_ID'] == sku_id]
 
 def calc_dist(point, row): 
     return distance.vincenty(point, (row['coordinates'][0], row['coordinates'][1]))
