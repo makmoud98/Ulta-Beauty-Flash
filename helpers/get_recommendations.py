@@ -53,7 +53,7 @@ def get_product_recommendations(keyword, n=5):
     cream_ls = ["lotion", "cream", "hand", "foot", "butter", "moisturizer", "moisture", "skin", "care"]
 
 
-    if len(lst) > 1 and keyword not in category_array:
+    if len(lst) >= 1 and keyword not in category_array:
         
         if (len([x for x in face_masks_ls if x in lst]) > 0):
             keyword = 'face masks'
