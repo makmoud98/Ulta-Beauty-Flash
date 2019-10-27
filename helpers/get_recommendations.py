@@ -18,10 +18,11 @@ def get_most_popular():
     return items
 
 
-user_recs = open('../static/user_recs.txt')
-user_hist = open('../static/user_history.txt')
-category_array = open('../static/categories.txt')
+user_recs = open('static/user_recs.txt')
+user_hist = open('static/user_history.txt')
+category_file = open('static/categories.txt')
 
+category_array = eval(category_file.read())
 lst_recs = eval(user_recs.read())
 lst_recs = lst_recs[0]
 hist = eval(user_hist.read())
