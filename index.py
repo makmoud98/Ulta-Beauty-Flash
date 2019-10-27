@@ -49,6 +49,7 @@ def get_in_store():
     for index, row in closest_rows.iterrows():
         tmp = item_in_store(row['STORE_ID'], sku_id)
         if tmp.shape[0] > 0:
+            tmp['store_data'] = row
             return tmp.to_json(orient='index')
     return "[]"
     
