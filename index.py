@@ -22,13 +22,11 @@ def convert_address(address):
 store_hours_df = pd.read_csv(path("Store_Hours.csv"))
 #store_hours_df.info()
 active_devices_df = pd.read_csv(path("ulta_beauty__makeup_&_skincare-active_devices-20190724-20191021.csv"), encoding = "ISO-8859-1")
-store_details_df = pd.read_csv(path("Store_Details.csv"), encoding = "ISO-8859-1")
+store_details_df = pickle.loads(open(path('new_product_details.txt'), 'rb').read())
 sku_metadata_df = pd.read_csv(path("Sku_MetaData.csv"), encoding = "ISO-8859-1")
 product_catalog_df = pd.read_csv(path("Product_Catalog.csv"), encoding = "ISO-8859-1", sep = "|")
 product_catalog_df['CATEGORY_NAME'] = product_catalog_df['CATEGORY_NAME'].astype('category')
 
-store_details_df['address']=store_details_df['ADDRESS_1']+', '+store_details_df['ADDRESS_2']+' ' + store_details_df['CITY']+' '+store_details_df['STATE']+' ' + str(store_details_df['ZIPCODE'])
-#store_details_df['geometry'] = store_details_df['address'].apply(convert_address)
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
