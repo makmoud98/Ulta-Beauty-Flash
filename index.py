@@ -37,28 +37,18 @@ def get_recommendation():
     keyword = request.args.get("keyword", "lipstick")
     return jsonify(items=get_product_recommendations(keyword))
 
-df = pd.DataFrame(
-    {'City': ['Buenos Aires', 'Brasilia', 'Santiago', 'Bogota', 'Caracas'],
-     'Country': ['Argentina', 'Brazil', 'Chile', 'Colombia', 'Venezuela'],
-     'Latitude': [-34.58, -15.78, -33.45, 4.60, 10.48],
-     'Longitude': [-58.66, -47.91, -70.66, -74.08, -66.86]})
-
-gdf = gpd.GeoDataFrame(
-    df, geometry=gpd.points_from_xy(df.Longitude, df.Latitude))
-
 def calc_dist(point, row): 
     return distance.vincenty(point, (row.coords.xy[0][0], row.coords.xy[1][0])).km
-#pdb.set_trace()
-def min_dist(point, gpd2):
-    #gdf['geometry'][0].coords.xy[0][0]
-    gpd2['Dist'] = gpd2['geometry'].apply(lambda row: calc_dist(point, row))
-    #gpd2['Dist'] = gpd2.apply(lambda row:  point.distance(row.geometry),axis=1)
-    #pdb.set_trace()
 
-    #Fix this line
-    geoseries = gpd2.iloc[gpd2['Dist'].argmin()]
-    return geoseries
-p = min_dist((-58.66, -34.58), gdf)
+def closest_row_func(point, gpd2):
+    gpd2['Dist'] = gpd2['geometry'].apply(lambda row: calc_dist(point, row))
+    min_distance = gpd2['Dist'].min()
+    closest_row = gpd2[gpd2['Dist'] == min_distance]
+    return closest_row
+
+#(long, lat)
+#p = closest_row_func((-58.66, -34.58), gdf)
+
 #@app.route('/api/get_nearest_store')
 def get_nearest_store(lat, lng):
     
