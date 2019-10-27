@@ -8,6 +8,7 @@ import json
 import pdb
 import geopy.distance as distance
 from shapely.ops import nearest_points
+import pickle
 
 def path(file_name, path_name='static/'):
     return path_name+file_name
@@ -45,7 +46,7 @@ df = pd.DataFrame(
 gdf = gpd.GeoDataFrame(
     df, geometry=gpd.points_from_xy(df.Longitude, df.Latitude))
 
-#pdb.set_trace()
+pdb.set_trace()
 def min_dist(point, gpd2):
     gdf['geometry'][0].coords.xy[0][0]
     gpd2['Dist'] = gpd2.apply(lambda row:  distance.vincenty(point, (row['geometry'][0].coords.xy[0][0], row['geometry'][0].coords.xy[1][0])))
