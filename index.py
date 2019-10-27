@@ -16,7 +16,7 @@ def path(file_name, path_name='static/'):
 active_devices_df = pd.read_csv(path("ulta_beauty__makeup_&_skincare-active_devices-20190724-20191021.csv"), encoding = "ISO-8859-1")
 store_details_df = pickle.loads(open(path('store_details.pickle'), 'rb').read())
 sku_metadata_df = pd.read_csv(path("Sku_MetaData.csv"), encoding = "ISO-8859-1")
-product_catalog_df = pd.read_csv(path("Product_Catalog.csv"), encoding = "ISO-8859-1", sep = "|")
+product_catalog_df = pd.read_csv(path('Product_Catalog.psv'), delimiter='|')
 product_catalog_df['CATEGORY_NAME'] = product_catalog_df['CATEGORY_NAME'].astype('category')
 
 @app.route('/')
