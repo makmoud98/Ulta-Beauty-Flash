@@ -10,7 +10,6 @@ import geopy.distance as distance
 from shapely.ops import nearest_points
 import pickle
 from helpers.get_recommendations import get_most_popular, get_product_recommendations
-from helpers.product_name import get_product_img
 
 def path(file_name, path_name='static/'):
     return path_name+file_name
@@ -27,7 +26,7 @@ store_inventory_df = pd.read_csv(path('Store_Inventory.csv'), encoding = "ISO-88
 
 @app.route('/')
 def hello_world():
-    return get_product_img('s')
+    return 'hello_world'
 
 @app.route('/api/get_product_recommendation')
 def get_recommendation():
