@@ -5,9 +5,10 @@ import cloudinary.uploader
 import cloudinary.api
 
 def get_product_img(sku_id):
-	x = cloudinary.uploader.upload("https://avatars2.githubusercontent.com/u/8992468",crop="limit",tags="samples",width=100,height=100)
-	print(x)
-	return x
+    sku_to_image = pd.read_csv('../static/sku_to_img.csv')
+    url = sku_to_image[sku_to_image['SKU_ID'] == int(sku_id)]['img_url']
+    x = cloudinary.uploader.upload(url,crop="limit",tags="samples",width=100,height=100)
+    return x
 
 def get_product_by_id(sku_id):
     """Get Product Display Name using a SKU_ID"""
