@@ -2,6 +2,7 @@ config.py
 # Editors
 .vscode/
 .idea/
+#static/Store_Inventory.csv
 
 # Vagrant
 .vagrant/
