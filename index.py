@@ -9,6 +9,7 @@ import pdb
 import geopy.distance as distance
 from shapely.ops import nearest_points
 import pickle
+from helpers.get_recommendations import get_most_popular, get_product_recommendations
 
 def path(file_name, path_name='static/'):
     return path_name+file_name
@@ -28,14 +29,9 @@ def get_recommendation():
     keyword = request.args.get("keyword", "lipstick")
     return jsonify(items=get_product_recommendations(keyword))
 
-def calc_dist(point, row): 
-    return distance.vincenty(point, (row['coordinates'][0], row['coordinates'][1])).km
-
-def closest_row_func(point, gpd2):
-    gpd2['Dist'] = gpd2['geometry'].apply(lambda row: calc_dist(point, row))
-    min_distance = gpd2['Dist'].min()
-    closest_row = gpd2[gpd2['Dist'] == min_distance]
-    return closest_row
+@app.route('/api/get_most_popular')
+def get_popular():
+    return jsonify(items=get_most_popular())
 
 @app.route('/api/get_nearest_store')
 def get_nearest_store():
@@ -44,8 +40,14 @@ def get_nearest_store():
     closest_row = closest_row_func((lat,lng), store_details_df).iloc[0,:]
     return closest_row.to_json(orient='index')
 
-def get_product_recommendations(keyword):
-	return []
+def calc_dist(point, row): 
+    return distance.vincenty(point, (row['coordinates'][0], row['coordinates'][1])).km
+
+def closest_row_func(point, gpd2):
+    gpd2['Dist'] = gpd2['geometry'].apply(lambda row: calc_dist(point, row))
+    min_distance = gpd2['Dist'].min()
+    closest_row = gpd2[gpd2['Dist'] == min_distance]
+    return closest_row
 
 if __name__ == '__main__':
 	app.run(debug=True, port=5000)
