@@ -24,7 +24,6 @@ category_file = open('static/categories.txt')
 
 category_array = eval(category_file.read())
 lst_recs = eval(user_recs.read())
-category_array = eval(category_array.read())
 lst_recs = lst_recs[0]
 hist = eval(user_hist.read())
 
