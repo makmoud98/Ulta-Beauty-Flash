@@ -15,5 +15,4 @@ Using NLP, Machine Learning, and Voice to enhance and simplify the ulta customer
 
 
 ## Running the environment
-conda env create -f environment.yml
-conda activate hmt
+pip3 install -r requirements.txt
